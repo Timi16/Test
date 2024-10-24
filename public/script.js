@@ -26,3 +26,26 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
   
+  document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const username = urlParams.get('username');
+
+    if (username) {
+        fetchUserStats(username);
+    }
+});
+
+async function fetchUserStats(username) {
+    try {
+        const response = await fetch(`https://test-c0vw.onrender.com/api/users/${username}`);
+        const user = await response.json();
+        
+        if (user) {
+            document.getElementById('userStats').classList.remove('hidden');
+            document.getElementById('points').textContent = user.points;
+            document.getElementById('referralCount').textContent = user.referrals.length;
+        }
+    } catch (error) {
+        console.error('Error fetching user stats:', error);
+    }
+}

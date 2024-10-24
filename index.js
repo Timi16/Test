@@ -2,13 +2,14 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const TelegramBot = require('node-telegram-bot-api');
-const User = require('./models/User');
 const path = require('path');
+const apiRoutes = require('./routes/api');
+const botController = require('./controllers/botController');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Set up MongoDB connection
+// Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -18,56 +19,17 @@ mongoose.connect(process.env.MONGO_URI, {
 // Create Telegram bot
 const bot = new TelegramBot(process.env.BOT_TOKEN, { polling: true });
 
-// Handle incoming messages
-bot.on('message', async (msg) => {
-  const chatId = msg.chat.id;
-  const username = msg.from.username || 'Unknown';
-
-  try {
-    let user = await User.findOne({ telegramId: chatId });
-
-    // If user doesn't exist, create a new user
-    if (!user) {
-      user = new User({ telegramId: chatId, username });
-      await user.save();
-    }
-
-    // Send a message with an inline button to the user
-    const opts = {
-      reply_markup: {
-        inline_keyboard: [
-          [
-            {
-              text: 'Open Website',
-              url: `https://test-c0vw.onrender.com/?username=${username}`
-            }
-          ]
-        ]
-      }
-    };
-
-    bot.sendMessage(chatId, `Hello ${username}, click the button below to start the website.`, opts);
-  } catch (err) {
-    console.error('Error saving user:', err);
-    bot.sendMessage(chatId, 'An error occurred while processing your request.');
-  }
-});
-
-// Serve static files (for HTML, CSS, JS)
+// Middleware
+app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// API route to get users
-app.get('/api/users', async (req, res) => {
-  try {
-    const users = await User.find();
-    res.json(users);
-  } catch (err) {
-    res.status(500).json({ message: 'Error fetching users' });
-  }
-});
+// Routes
+app.use('/api', apiRoutes);
 
-// Start the server
+// Bot handler
+bot.on('message', (msg) => botController.handleMessage(bot, msg));
+
+// Start server
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
-

@@ -1,9 +1,13 @@
 const mongoose = require('mongoose');
 
-const testSchema = new mongoose.Schema({
-  telegramId: { type: String, unique: true },
-  username: { type: String, unique: true },
+const userSchema = new mongoose.Schema({
+  telegramId: { type: String, required: true, unique: true },
+  username: { type: String, required: true },
+  referralCode: { type: String, required: true, unique: true },
+  points: { type: Number, default: 0 },
+  referrals: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  referredBy: { type: String, default: null },
+  createdAt: { type: Date, default: Date.now }
 });
 
-const User = mongoose.model('Test', testSchema);
-module.exports = User;
+module.exports = mongoose.model('User', userSchema);
