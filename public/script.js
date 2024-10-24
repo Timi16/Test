@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const usernameElement = document.getElementById('username');
   
     // Fetch user data from the API
-    fetch('127.0.0.1:3000/api/users')
+    fetch('https://test-c0vw.onrender.com/api/users')
       .then(response => response.json())
       .then(data => {
         data.forEach(user => {

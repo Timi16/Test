@@ -39,7 +39,7 @@ bot.on('message', async (msg) => {
           [
             {
               text: 'Open Website',
-              url: `http://localhost:3000/?username=${username}`
+              url: `https://test-c0vw.onrender.com/?username=${username}`
             }
           ]
         ]
