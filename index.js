@@ -18,10 +18,7 @@ const bot = new TelegramBot(token, { polling: true });
 // Start command for the Telegram bot
 bot.onText(/\/start/, (msg) => {
     const chatId = msg.chat.id;
-    const message = `Hello! Here’s some information about our projects:
-    - Project Dolphins: A revolutionary platform that aims to protect marine life.
-    Click the link below to learn more!
-    
+    const message = `Welcome to Dolphin Task! 🐬 Dive into exciting tasks, earn rewards, and explore the world of dolphins! Complete tasks, collect points, and unlock surprises along the way. Ready to make a splash? Let’s get started!'
     🔗 [Visit Project Dolphins](https://t.me/DolphinsProject_Bot/Dolphins)`;
 
     bot.sendMessage(chatId, message, { parse_mode: 'Markdown' });
