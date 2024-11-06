@@ -21,21 +21,22 @@ const webAppUrl = 'https://dolphins-ai6u.onrender.com'; // Replace with your act
 // Start command for the Telegram bot
 bot.onText(/\/start/, (msg) => {
     const chatId = msg.chat.id;
-    const message = `Welcome to Dolphin Task! 🐬 Dive into exciting tasks, earn rewards, and explore the world of dolphins! Complete tasks, collect points, and unlock surprises along the way. Ready to make a splash? Let’s get started!`;
+    const message = `Welcome to Dolphin Task! 🐬 Dive into exciting tasks, earn rewards, and explore the world of dolphins! Complete tasks, collect points, and unlock surprises along the way. Ready to make a splash? Let's get started!`;
 
     const options = {
         parse_mode: 'Markdown',
         reply_markup: {
-            keyboard: [
+            inline_keyboard: [
                 [
-                    { 
-                        text: "🐬 Open Dolphin Task Web App", 
-                        web_app: { url: webAppUrl }  // This opens your web app in the blue button
-                    }
+                    { text: "Open Dolphin Task Web App", web_app: { url: webAppUrl } }
+                ],
+                [
+                    { text: "🔗 Visit Project Dolphins", url: 'https://t.me/DolphinsProject_Bot/Dolphins' }
+                ],
+                [
+                    { text: "Join Channel", url: 'https://t.me/Dolphinshome' } // Replace with your actual channel link
                 ]
-            ],
-            resize_keyboard: true, // Makes the keyboard fit nicely at the bottom
-            one_time_keyboard: true // Hides the keyboard after the button is clicked
+            ]
         }
     };
 
@@ -62,4 +63,3 @@ app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
     console.log('Telegram bot is up and running...');
 });
-
