@@ -15,20 +15,24 @@ app.use(cors());
 const token = process.env.TELEGRAM_BOT_TOKEN;
 const bot = new TelegramBot(token, { polling: true });
 
-// Channel link for the "Join Channel" button
-const channelLink = 'https://t.me/Dolphinshome'; // Replace with your actual channel link
+// Web app URL (replace with your actual hosted HTML page URL)
+const webAppUrl = 'https://dolphins-ai6u.onrender.com'; // Replace with your actual URL
 
 // Start command for the Telegram bot
 bot.onText(/\/start/, (msg) => {
     const chatId = msg.chat.id;
-    const message = `Welcome to Dolphin Task! 🐬 Dive into exciting tasks, earn rewards, and explore the world of dolphins! Complete tasks, collect points, and unlock surprises along the way. Ready to make a splash? Let’s get started!`;
+    const message = `Welcome to Dolphin Task! 🐬 Dive into exciting tasks, earn rewards, and explore the world of dolphins! Complete tasks, collect points, and unlock surprises along the way. Ready to make a splash? Let’s get started!
+    🔗 [Visit Project Dolphins](https://t.me/DolphinsProject_Bot/Dolphins)`;
 
     const options = {
         parse_mode: 'Markdown',
         reply_markup: {
             inline_keyboard: [
                 [
-                    { text: "Join Channel", url: channelLink }
+                    { text: "Open Dolphin Task Web App", web_app: { url: webAppUrl } }
+                ],
+                [
+                    { text: "Join Channel", url: 'https://t.me/Dolphinshome' } // Replace with your actual channel link
                 ]
             ]
         }
