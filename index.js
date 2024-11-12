@@ -39,28 +39,6 @@ bot.onText(/\/start/, (msg) => {
             ]
         }
     };
-    bot.once('text', async (usernameMsg) => {
-        const username = usernameMsg.text;
-        
-        try {
-            // Register user with invite code
-            const response = await fetch('https://dolphins-ai6u.onrender.com/api/user/register', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, inviteCode })
-            });
-            
-            const data = await response.json();
-            if (data.token) {
-                bot.sendMessage(chatId, `Registration successful! You’ve earned referral points. Your user ID is: ${data.userId}`);
-            } else {
-                bot.sendMessage(chatId, 'Registration failed. Please try again or check your invite code.');
-            }
-        } catch (error) {
-            bot.sendMessage(chatId, 'There was an error with the registration process.');
-        }
-    });
-
 
     bot.sendMessage(chatId, message, options);
 });
